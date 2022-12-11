@@ -12,27 +12,35 @@ const refs = {
 let widthStep = 30;
 let heightStep = 30;
 
-refs.inputEl.addEventListener("input", onInputValue);
+refs.createBtn.addEventListener("click", onCreateBtn);
+refs.destroyBtn.addEventListener("click", reset);
 
-function onInputValue(event) {
+function onCreateBtn() {
+  const inputValue = Number(refs.inputEl.value);
+  let amountEl = [];
+
+  for (let i = 1; i <= inputValue; i += 1) {
+    amountEl.push(i);
+  }
+
   function createBoxes(amount) {
-    const box = document.createElement("div");
+    const boxEl = amount.map((element) => {
+      const box = document.createElement("div");
+      box.style.width = `${widthStep}px`;
+      box.style.height = `${heightStep}px`;
+      box.style.backgroundColor = getRandomHexColor();
+      widthStep += 10;
+      heightStep += 10;
+      console.log(box);
+      return box;
+    });
 
-    box.style.width = `${widthStep}px`;
-    box.style.height = `${heightStep}px`;
-    box.style.backgroundColor = getRandomHexColor();
-    widthStep += 10;
-    heightStep += 10;
-
-    refs.boxes.append(box);
+    refs.boxes.append(...boxEl);
   }
 
-  refs.createBtn.addEventListener("click", onCreateBtn);
-  refs.destroyBtn.removeEventListener("click", onCreateBtn);
-
-  function onCreateBtn(event) {
-    createBoxes();
-  }
+  createBoxes(amountEl);
 }
 
-// Чомусь кількість <div> = кількості кліків в інпуті
+function reset() {
+  refs.boxes.innerHTML = "";
+}
