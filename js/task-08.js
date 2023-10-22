@@ -4,22 +4,15 @@ loginForm.addEventListener("submit", onSubmit);
 
 function onSubmit(evt) {
   evt.preventDefault();
-  const {
-    elements: { email, password },
-  } = evt.currentTarget;
+  const { email, password } = evt.currentTarget.elements;
 
-  if (email.value === "" || password.value === "") {
-    return alert("Усі поля повинні бути заповнені");
+  if (password.value === "" || email.value === "") {
+    return alert("All fields must be filled!");
   }
-
-  const formEl = {
+  const dataForm = {
     email: email.value,
     password: password.value,
   };
-  console.log(formEl);
-
-  //const formEl = new FormData(evt.currentTarget);
-  //console.log(formEl);
-
-  evt.currentTarget.reset();
+  console.log(dataForm);
+  loginForm.reset();
 }

@@ -1,46 +1,35 @@
 function getRandomHexColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, 0)}`;
 }
 
-const refs = {
-  inputEl: document.querySelector("#controls input"),
-  createBtn: document.querySelector("#controls button[data-create]"),
-  destroyBtn: document.querySelector("#controls button[data-destroy]"),
-  boxes: document.querySelector("#boxes"),
-};
+const inputNumber = document.querySelector("#controls input");
+const createBtn = document.querySelector("button[data-create]");
+const destroyBtn = document.querySelector("button[data-destroy]");
+const boxes = document.querySelector("#boxes");
 
-let widthStep = 30;
-let heightStep = 30;
+createBtn.addEventListener("click", onCreate);
+destroyBtn.addEventListener("click", onDestroy);
 
-refs.createBtn.addEventListener("click", onCreateBtn);
-refs.destroyBtn.addEventListener("click", reset);
-
-function onCreateBtn() {
-  const inputValue = Number(refs.inputEl.value);
-  let amountEl = [];
-
-  for (let i = 1; i <= inputValue; i += 1) {
-    amountEl.push(i);
-  }
-
-  function createBoxes(amount) {
-    const boxEl = amount.map((element) => {
-      const box = document.createElement("div");
-      box.style.width = `${widthStep}px`;
-      box.style.height = `${heightStep}px`;
-      box.style.backgroundColor = getRandomHexColor();
-      widthStep += 10;
-      heightStep += 10;
-      console.log(box);
-      return box;
-    });
-
-    refs.boxes.append(...boxEl);
-  }
-
-  createBoxes(amountEl);
+function onCreate() {
+  const number = Number(inputNumber.value);
+  createBoxes(number);
 }
 
-function reset() {
-  refs.boxes.innerHTML = "";
+function onDestroy() {
+  boxes.innerHTML = "";
+}
+
+function createBoxes(amount) {
+  let markup = [];
+  let boxSize = 30;
+
+  for (let i = 0; i < amount; i += 1) {
+    let div = `<div style="background-color: ${getRandomHexColor()}; width: ${boxSize}px; height: ${boxSize}px"></div>`;
+    boxSize += 10;
+    markup[i] = div;
+  }
+
+  return (boxes.innerHTML = markup.join(""));
 }

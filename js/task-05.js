@@ -1,21 +1,10 @@
-const refs = {
-  name: document.querySelector("#name-input"),
-  spanEl: document.querySelector("#name-output"),
-};
+const input = document.querySelector("#name-input");
+const output = document.querySelector("#name-output");
 
-console.log(refs.name.textContent);
-console.log(refs.spanEl.textContent);
+input.addEventListener("input", onInput);
 
-refs.name.addEventListener("input", onInputName);
-
-function onInputName(event) {
-  event.preventDefault();
-
-  const nameInput = event.target.value;
-
-  if (nameInput) {
-    refs.spanEl.textContent = nameInput;
-  } else {
-    refs.spanEl.textContent = "Anonimus";
-  }
+function onInput(evt) {
+  input.value !== ""
+    ? (output.textContent = evt.target.value)
+    : (output.textContent = "Anonymous");
 }
